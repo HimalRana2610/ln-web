@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/*
+  Design tokens carried across from the old app (frontend/index.html and
+  styles/design-system.css). Inter for the interface, Kalam for note headings —
+  the handwriting face is a small detail that carries most of the product's
+  character, and its absence is immediately obvious.
+*/
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-handwriting: var(--font-kalam), ui-serif, cursive;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+:root {
+  /* slate-50 / slate-900 — the old app's light theme. */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* slate-950 / slate-100 */
+    --background: #020617;
+    --foreground: #f1f5f9;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/*
+  Printing a note *is* the PDF export. The browser's own print-to-PDF is free,
+  needs no library, and beats canvas-based exporters — it keeps selectable text
+  instead of rasterising the page.
+*/
+@media print {
+  header,
+  nav,
+  button,
+  .print-hidden {
+    display: none !important;
+  }
+
+  .print-surface {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Never split a heading from the text it introduces. */
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  pre,
+  blockquote,
+  table {
+    break-inside: avoid;
+  }
+}
