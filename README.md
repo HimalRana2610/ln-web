@@ -135,9 +135,22 @@ handlers without a matching `Origin` header — built-in CSRF protection. Browse
 always send it; `curl` does not. Add `-H "Origin: http://localhost:3000"` when
 testing by hand.
 
+## Rendering generated notes
+
+`MarkdownView` parses every Mermaid block before rendering any of them, and
+downgrades the ones that fail to plain code blocks. This is deliberate:
+`mermaid.run` reacts to a syntax error by substituting its own "Syntax error in
+text" graphic, and the model does occasionally emit invalid Mermaid. Source text
+in a code block still teaches the reader something; a red error box does not.
+
+There is no KaTeX. The backend prompt asks for Unicode formulas (`H₂O`, `40°C`)
+rather than LaTeX for that reason — adding `remark-math` + `rehype-katex` here
+would need a matching maths widget in `ln-app`, or the two clients would render
+the same note differently.
+
 ## Status
 
-Auth, classrooms and notes are complete: **46 tests** passing, ESLint clean,
+Auth, classrooms and notes are complete: **50 tests** passing, ESLint clean,
 `tsc` clean, production build succeeds. The dashboard and classroom pages were
 verified rendering real data against the running backend.
 
