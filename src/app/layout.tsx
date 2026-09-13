@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Kalam } from "next/font/google";
 
+import { ServiceWorkerRegistrar } from "@/components/offline/service-worker-registrar";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
+
 import "./globals.css";
 
 /**
@@ -33,8 +36,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Before first paint, so a stored dark theme never flashes light. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className={`${inter.variable} ${kalam.variable} font-sans antialiased`}>
         {children}
+        <ServiceWorkerRegistrar />
       </body>
     </html>
   );

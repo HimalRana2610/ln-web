@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
@@ -45,13 +46,38 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
           </span>
 
           <div className="flex items-center gap-3">
-            <span className="hidden text-sm text-slate-500 sm:inline dark:text-slate-400">
+            <nav aria-label="Main" className="flex items-center gap-3 text-sm">
+              <Link
+                href="/dashboard"
+                className="text-slate-600 hover:underline dark:text-slate-300"
+              >
+                Classes
+              </Link>
+              <Link href="/todo" className="text-slate-600 hover:underline dark:text-slate-300">
+                To-do
+              </Link>
+            </nav>
+            <Link
+              href="/settings"
+              className="hidden text-sm text-slate-500 hover:underline sm:inline dark:text-slate-400"
+            >
               {user.full_name}
-            </span>
+            </Link>
             <SignOutButton />
           </div>
         </div>
       </header>
+
+      {!user.is_email_verified && (
+        <div className="border-b border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/50">
+          <p className="mx-auto max-w-5xl px-4 py-2 text-sm text-amber-900 dark:text-amber-200">
+            Verify your email to mark attendance.{" "}
+            <Link href="/verify-email" className="font-semibold underline">
+              Verify now
+            </Link>
+          </p>
+        </div>
+      )}
 
       <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
     </div>

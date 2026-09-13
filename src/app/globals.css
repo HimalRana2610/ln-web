@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
 /*
+  Dark mode follows `data-theme` on <html> rather than the media query, so the
+  Settings page can override the system. An inline script in the root layout
+  sets it before first paint; see src/lib/theme.ts.
+*/
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
   Design tokens carried across from the old app (frontend/index.html and
   styles/design-system.css). Inter for the interface, Kalam for note headings —
   the handwriting face is a small detail that carries most of the product's
@@ -21,12 +28,11 @@
   --foreground: #0f172a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* slate-950 / slate-100 */
-    --background: #020617;
-    --foreground: #f1f5f9;
-  }
+:root[data-theme="dark"] {
+  /* slate-950 / slate-100 */
+  --background: #020617;
+  --foreground: #f1f5f9;
+  color-scheme: dark;
 }
 
 body {

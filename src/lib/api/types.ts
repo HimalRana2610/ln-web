@@ -165,3 +165,196 @@ export interface DownloadLink {
   size_bytes: number | null;
   expires_in: number;
 }
+
+// ---------------------------------------------------------------------------
+// Attendance
+// ---------------------------------------------------------------------------
+
+export type SessionStatus = "monitoring" | "active" | "ended";
+export type RecordStatus = "pending" | "present" | "absent";
+
+export interface AttendanceSession {
+  id: string;
+  classroom_id: string;
+  started_by: string;
+  started_by_name: string;
+  /** The classroom's calendar day, `YYYY-MM-DD`. Not an instant. */
+  date: string;
+  /** Effective: a monitoring session past its opening time reads `active`. */
+  status: SessionStatus;
+  started_at: string;
+  verification_opens_at: string;
+  ended_at: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  radius_meters: number;
+  threshold_minutes: number;
+  rssi_threshold: number;
+  hop_depth: number;
+  session_tag: string;
+  window_seconds: number;
+  server_time: string;
+  /** Teachers only. The web app never uses it — only phones advertise. */
+  beacon_secret: string | null;
+  present_count: number;
+  record_count: number;
+  /** Students only. */
+  my_status: RecordStatus | null;
+}
+
+export interface AttendanceRecord {
+  id: string;
+  session_id: string;
+  student_id: string;
+  student_name: string;
+  student_email: string;
+  status: RecordStatus;
+  marked_at: string | null;
+  /** Set by a teacher's manual correction rather than by verification. */
+  corrected: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Security
+// ---------------------------------------------------------------------------
+
+export interface OtpSent {
+  sent_to: string;
+  resend_after_seconds: number;
+}
+
+export interface DeviceInfo {
+  id: string;
+  platform: "android" | "ios";
+  model: string | null;
+  bound_at: string;
+  last_seen_at: string;
+}
+
+export interface BlockInfo {
+  classroom_id: string;
+  classroom_name: string;
+  reason: string | null;
+  blocked_at: string;
+}
+
+export interface MySecurityStatus {
+  email_verified: boolean;
+  device: DeviceInfo | null;
+  face_enrolled: boolean;
+  blocks: BlockInfo[];
+}
+
+export interface StudentSecurity {
+  student_id: string;
+  full_name: string;
+  email: string;
+  email_verified: boolean;
+  device: DeviceInfo | null;
+  face_enrolled: boolean;
+  blocked: boolean;
+  block_reason: string | null;
+  unread_alerts: number;
+}
+
+export type AlertType = "multi_device" | "shared_device" | "wrong_device" | "invalid_signature";
+
+export interface SecurityAlert {
+  id: string;
+  classroom_id: string;
+  classroom_name: string;
+  student_id: string;
+  student_name: string;
+  student_email: string;
+  type: AlertType;
+  severity: "medium" | "critical";
+  message: string;
+  created_at: string;
+  read_at: string | null;
+}
+
+export interface FaceStatus {
+  available: boolean;
+  enrolled: boolean;
+  enrolled_at: string | null;
+}
+
+export interface VerificationAttempt {
+  id: string;
+  student_id: string;
+  student_name: string;
+  created_at: string;
+  accepted: boolean;
+  rejection_reason: string | null;
+  avg_rssi: number | null;
+  hop_count: number | null;
+  valid_windows: number;
+  elapsed_windows: number;
+}
+
+// ---------------------------------------------------------------------------
+// To-do
+// ---------------------------------------------------------------------------
+
+/** Computed by the server, so a phone with a wrong clock cannot misreport it. */
+export type ToDoStatus = "assigned" | "missing" | "done";
+
+export interface ToDoItem {
+  post_id: string;
+  classroom_id: string;
+  classroom_name: string;
+  title: string;
+  description: string | null;
+  due_date: string | null;
+  author_name: string;
+  created_at: string;
+  submitted_at: string | null;
+  is_late: boolean;
+  status: ToDoStatus;
+}
+
+// ---------------------------------------------------------------------------
+// Quizzes
+// ---------------------------------------------------------------------------
+
+export type QuizOption = "A" | "B" | "C" | "D";
+
+export interface QuizQuestion {
+  id: string;
+  classroom_id: string;
+  prompt: string;
+  /** Always four, in A–D order. */
+  options: string[];
+  status: "active" | "ended";
+  started_at: string;
+  ended_at: string | null;
+  /** Hidden from students while the question is live. */
+  correct_option: QuizOption | null;
+  answer_count: number;
+  my_option: QuizOption | null;
+  my_is_correct: boolean | null;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  student_id: string;
+  student_name: string;
+  correct: number;
+  answered: number;
+  penalty_seconds: number;
+}
+
+export interface QuizState {
+  active: QuizQuestion | null;
+  /** Ended questions, newest first. */
+  recent: QuizQuestion[];
+  /** Already ranked by the server. */
+  leaderboard: LeaderboardEntry[];
+  poll_interval_seconds: number;
+}
+
+export interface QuizAnswerResult {
+  option: QuizOption;
+  is_correct: boolean;
+  penalty_seconds: number;
+}

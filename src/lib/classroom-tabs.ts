@@ -9,12 +9,23 @@ export const CLASSROOM_TABS = [
   { value: "materials", label: "Materials" },
   { value: "assignments", label: "Assignments" },
   { value: "notes", label: "Notes" },
+  { value: "attendance", label: "Attendance" },
+  { value: "quiz", label: "Quiz" },
+  { value: "security", label: "Security", teacherOnly: true },
 ] as const;
 
 export type ClassroomTab = (typeof CLASSROOM_TABS)[number]["value"];
 
-/** Unknown or missing values fall back to the stream rather than a 404. */
-export function parseTab(value: string | string[] | undefined): ClassroomTab {
+/** The tabs this viewer may open. */
+export function visibleTabs(canManage: boolean) {
+  return CLASSROOM_TABS.filter((tab) => canManage || !("teacherOnly" in tab));
+}
+
+/**
+ * Unknown or missing values fall back to the stream rather than a 404, and so
+ * does a teacher-only tab asked for by a student.
+ */
+export function parseTab(value: string | string[] | undefined, canManage = true): ClassroomTab {
   const candidate = Array.isArray(value) ? value[0] : value;
-  return CLASSROOM_TABS.find((tab) => tab.value === candidate)?.value ?? "stream";
+  return visibleTabs(canManage).find((tab) => tab.value === candidate)?.value ?? "stream";
 }

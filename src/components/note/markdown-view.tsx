@@ -41,9 +41,7 @@ export function MarkdownView({ markdown, className }: MarkdownViewProps) {
       mermaid.initialize({
         startOnLoad: false,
         securityLevel: "strict",
-        theme: window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "default",
+        theme: document.documentElement.dataset.theme === "dark" ? "dark" : "default",
       });
 
       // Every diagram is parsed before any is rendered. `mermaid.run` reacts to
@@ -111,9 +109,7 @@ export function MarkdownView({ markdown, className }: MarkdownViewProps) {
             </h3>
           ),
           p: ({ children }) => <p className="my-3 leading-relaxed">{children}</p>,
-          ul: ({ children }) => (
-            <ul className="my-3 list-disc space-y-1 pl-6">{children}</ul>
-          ),
+          ul: ({ children }) => <ul className="my-3 list-disc space-y-1 pl-6">{children}</ul>,
           ol: ({ children }) => (
             <ol className="my-3 list-decimal space-y-1 pl-6">{children}</ol>
           ),

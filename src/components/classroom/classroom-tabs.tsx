@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
-import { CLASSROOM_TABS, type ClassroomTab } from "@/lib/classroom-tabs";
+import { visibleTabs, type ClassroomTab } from "@/lib/classroom-tabs";
 import { cn } from "@/lib/utils";
 
 /**
@@ -13,9 +13,11 @@ import { cn } from "@/lib/utils";
  */
 export function ClassroomTabs({
   active,
+  canManage,
   children,
 }: {
   active: ClassroomTab;
+  canManage: boolean;
   children: ReactNode;
 }) {
   const pathname = usePathname();
@@ -26,7 +28,7 @@ export function ClassroomTabs({
         aria-label="Classroom sections"
         className="mb-6 flex gap-1 overflow-x-auto border-b border-slate-200 dark:border-slate-800"
       >
-        {CLASSROOM_TABS.map(({ value, label }) => (
+        {visibleTabs(canManage).map(({ value, label }) => (
           <Link
             key={value}
             href={value === "stream" ? pathname : `${pathname}?tab=${value}`}
