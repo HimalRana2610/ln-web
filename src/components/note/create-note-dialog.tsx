@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Modal } from "@/components/ui/modal";
 import type { Note } from "@/lib/api/types";
+import { uploadToStorage } from "@/lib/upload";
 import { cn } from "@/lib/utils";
 import {
   isSupportedUpload,
@@ -72,34 +73,6 @@ export function CreateNoteDialog({
     close();
   }
 
-  /**
-   * PUT the file straight to object storage.
-   *
-   * `XMLHttpRequest` rather than `fetch` purely for `upload.onprogress` —
-   * `fetch` still cannot report upload progress, and a 90-minute recording
-   * without a progress bar looks indistinguishable from a hang.
-   */
-  function uploadToStorage(url: string, contentType: string, blob: File): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const request = new XMLHttpRequest();
-      request.open("PUT", url);
-      request.setRequestHeader("Content-Type", contentType);
-
-      request.upload.onprogress = (event) => {
-        if (event.lengthComputable) {
-          setUploadPercent(Math.round((event.loaded / event.total) * 100));
-        }
-      };
-      request.onload = () =>
-        request.status >= 200 && request.status < 300
-          ? resolve()
-          : reject(new Error(`Upload failed (${request.status})`));
-      request.onerror = () => reject(new Error("Upload failed. Check your connection."));
-
-      request.send(blob);
-    });
-  }
-
   async function submit() {
     setError(null);
     setBusy(true);
@@ -133,7 +106,12 @@ export function CreateNoteDialog({
       if (!slot.ok) return setError(slot.error);
 
       setUploadPercent(0);
-      await uploadToStorage(slot.data.upload_url, slot.data.content_type, file);
+      await uploadToStorage(
+        slot.data.upload_url,
+        slot.data.content_type,
+        file,
+        setUploadPercent,
+      );
       setUploadPercent(null);
 
       const result = await createNoteFromUpload(classroomId, slot.data.asset_id, date);

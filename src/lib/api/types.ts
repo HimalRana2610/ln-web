@@ -112,3 +112,56 @@ export interface PresignedUpload {
 
 /** A note is still being generated while its status is one of these. */
 export const IN_PROGRESS_STATUSES: readonly NoteStatus[] = ["pending", "processing"];
+
+// ---------------------------------------------------------------------------
+// Posts, submissions and downloads
+// ---------------------------------------------------------------------------
+
+export type PostKind = "material" | "announcement" | "assignment";
+export type UploadPurpose = "note" | "attachment";
+
+/** A file's metadata. Never a URL — those expire, so ask for one per download. */
+export interface AssetInfo {
+  id: string;
+  filename: string;
+  content_type: string;
+  size_bytes: number | null;
+}
+
+export interface Post {
+  id: string;
+  classroom_id: string;
+  kind: PostKind;
+  title: string;
+  description: string | null;
+  /** ISO 8601 with offset. Assignments only. */
+  due_date: string | null;
+  author_id: string;
+  author_name: string;
+  asset: AssetInfo | null;
+  created_at: string;
+  updated_at: string;
+  /** Assignments, teacher view. */
+  submission_count: number | null;
+  /** Assignments, student view. Null until they submit. */
+  my_submitted_at: string | null;
+}
+
+export interface Submission {
+  id: string;
+  post_id: string;
+  student_id: string;
+  student_name: string;
+  student_email: string;
+  asset: AssetInfo;
+  submitted_at: string;
+  is_late: boolean;
+}
+
+export interface DownloadLink {
+  url: string;
+  filename: string;
+  content_type: string;
+  size_bytes: number | null;
+  expires_in: number;
+}

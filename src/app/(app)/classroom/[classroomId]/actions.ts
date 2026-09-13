@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { authedFetch, runAction, type ActionResult } from "@/lib/api/server";
-import type { Note, NoteSummary, PresignedUpload } from "@/lib/api/types";
+import type { Note, NoteSummary, PresignedUpload, UploadPurpose } from "@/lib/api/types";
 import { noteFromTextSchema, noteFromYoutubeSchema } from "@/lib/validation/note";
 
 /**
@@ -77,11 +77,12 @@ export async function presignUpload(
   filename: string,
   contentType: string,
   sizeBytes: number,
+  purpose: UploadPurpose = "note",
 ): Promise<ActionResult<PresignedUpload>> {
   return runAction(() =>
     authedFetch<PresignedUpload>("/uploads/presign", {
       method: "POST",
-      body: { filename, content_type: contentType, size_bytes: sizeBytes },
+      body: { filename, content_type: contentType, size_bytes: sizeBytes, purpose },
     }),
   );
 }

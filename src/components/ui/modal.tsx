@@ -8,6 +8,8 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: ReactNode;
+  /** `wide` fits a table. */
+  size?: "default" | "wide";
 }
 
 /**
@@ -17,7 +19,7 @@ interface ModalProps {
  * close, inert background content and the top layer for free — all things a
  * hand-rolled modal usually gets wrong.
  */
-export function Modal({ open, onClose, title, children }: ModalProps) {
+export function Modal({ open, onClose, title, children, size = "default" }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
         if (event.target === dialogRef.current) onClose();
       }}
       aria-label={title}
-      className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-2xl bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-900/50 dark:bg-slate-900 dark:text-slate-100"
+      className={`m-auto ${size === "wide" ? "w-[min(44rem,calc(100vw-2rem))]" : "w-[min(28rem,calc(100vw-2rem))]"} rounded-2xl bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-900/50 dark:bg-slate-900 dark:text-slate-100`}
     >
       <div className="p-6">
         <h2 className="mb-1 text-lg font-semibold">{title}</h2>
