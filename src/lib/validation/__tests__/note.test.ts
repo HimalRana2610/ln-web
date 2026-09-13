@@ -67,9 +67,7 @@ describe("upload validation", () => {
   });
 
   it("rejects unrelated files", () => {
-    expect(isSupportedUpload(fakeFile("virus.exe", "application/x-msdownload"))).toBe(
-      false,
-    );
+    expect(isSupportedUpload(fakeFile("virus.exe", "application/x-msdownload"))).toBe(false);
     expect(isSupportedUpload(fakeFile("photo.png", "image/png"))).toBe(false);
   });
 

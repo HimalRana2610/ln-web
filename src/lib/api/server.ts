@@ -37,8 +37,7 @@ export async function authedFetch<T>(path: string, options: Options = {}): Promi
  * discriminated union instead keeps the backend's message intact.
  */
 export type ActionResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: string; code: string };
+  { ok: true; data: T } | { ok: false; error: string; code: string };
 
 export async function runAction<T>(fn: () => Promise<T>): Promise<ActionResult<T>> {
   try {

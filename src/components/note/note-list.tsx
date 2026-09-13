@@ -7,7 +7,7 @@ import { deleteNote, fetchNotes } from "@/app/(app)/classroom/[classroomId]/acti
 import { CreateNoteDialog } from "@/components/note/create-note-dialog";
 import { Button } from "@/components/ui/button";
 import { IN_PROGRESS_STATUSES, type NoteSummary, type NoteStatus } from "@/lib/api/types";
-import { cn } from "@/lib/utils";
+import { cn, formatCalendarDate } from "@/lib/utils";
 
 /** How often to re-check while something is still generating. */
 const POLL_INTERVAL_MS = 3000;
@@ -71,8 +71,7 @@ export function NoteList({ classroomId, initialNotes, canManage }: NoteListProps
       {notes.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-slate-300 py-14 text-center dark:border-slate-700">
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            No notes yet. Record a lecture, upload audio, paste text, or drop in a
-            YouTube link.
+            No notes yet. Record a lecture, upload audio, paste text, or drop in a YouTube link.
           </p>
           <Button size="sm" className="mt-4" onClick={() => setDialogOpen(true)}>
             Create the first note
@@ -129,17 +128,13 @@ function NoteRow({
   const body = (
     <div className="flex items-start justify-between gap-4">
       <div className="min-w-0">
-        <p className="truncate font-medium text-slate-900 dark:text-white">
-          {note.title}
-        </p>
+        <p className="truncate font-medium text-slate-900 dark:text-white">{note.title}</p>
         <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-          {new Date(note.date).toLocaleDateString()} · {SOURCE_LABEL[note.source_type]} ·{" "}
+          {formatCalendarDate(note.date)} · {SOURCE_LABEL[note.source_type]} ·{" "}
           {note.author_name}
         </p>
         {note.status === "failed" && note.error_message && (
-          <p className="mt-2 text-xs text-red-600 dark:text-red-400">
-            {note.error_message}
-          </p>
+          <p className="mt-2 text-xs text-red-600 dark:text-red-400">{note.error_message}</p>
         )}
       </div>
       <StatusBadge status={note.status} />
@@ -149,7 +144,7 @@ function NoteRow({
   return (
     <li
       className={cn(
-        "rounded-xl border border-slate-200 bg-white p-4 transition dark:border-slate-800 dark:bg-slate-900",
+        "rounded-xl border border-slate-200 bg-white p-4 transition dark:border-slate-700 dark:bg-slate-800",
         isPending && "pointer-events-none opacity-60",
       )}
     >
@@ -179,7 +174,7 @@ function NoteRow({
 
 function StatusBadge({ status }: { status: NoteStatus }) {
   const styles: Record<NoteStatus, string> = {
-    pending: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
+    pending: "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300",
     processing: "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
     ready: "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300",
     failed: "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
@@ -194,10 +189,7 @@ function StatusBadge({ status }: { status: NoteStatus }) {
 
   return (
     <span
-      className={cn(
-        "shrink-0 rounded-full px-2.5 py-1 text-xs font-medium",
-        styles[status],
-      )}
+      className={cn("shrink-0 rounded-full px-2.5 py-1 text-xs font-medium", styles[status])}
     >
       {label[status]}
     </span>

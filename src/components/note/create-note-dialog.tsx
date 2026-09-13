@@ -127,11 +127,11 @@ export function CreateNoteDialog({
   return (
     <Modal open={open} onClose={close} title="New note">
       <p className="mb-5 text-sm text-slate-500 dark:text-slate-400">
-        Notes are generated in the background. You can close this and come back —
-        the list updates itself.
+        Notes are generated in the background. You can close this and come back — the list
+        updates itself.
       </p>
 
-      <div className="mb-5 flex gap-1 rounded-lg bg-slate-100 p-1 dark:bg-slate-800">
+      <div className="mb-5 flex gap-1 rounded-lg bg-slate-100 p-1 dark:bg-slate-700">
         {TABS.map(({ value, label }) => (
           <button
             key={value}
@@ -141,7 +141,7 @@ export function CreateNoteDialog({
             className={cn(
               "flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition",
               tab === value
-                ? "bg-white text-slate-900 shadow-sm dark:bg-slate-900 dark:text-white"
+                ? "bg-white text-slate-900 shadow-sm dark:bg-slate-800 dark:text-white"
                 : "text-slate-500 hover:text-slate-700 dark:text-slate-400",
             )}
           >
@@ -180,7 +180,9 @@ export function CreateNoteDialog({
                     style={{ width: `${uploadPercent}%` }}
                   />
                 </div>
-                <p className="mt-1 text-xs text-slate-500">Uploading… {uploadPercent}%</p>
+                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                  Uploading… {uploadPercent}%
+                </p>
               </div>
             )}
           </div>
@@ -200,7 +202,7 @@ export function CreateNoteDialog({
               value={text}
               onChange={(event) => setText(event.target.value)}
               placeholder="Paste a transcript, your rough notes, or the lecture handout…"
-              className="rounded-lg border border-slate-300 p-3 text-sm outline-none focus:border-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-slate-400"
+              className="rounded-lg border border-slate-300 p-3 text-sm outline-none focus:border-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-slate-400"
             />
           </div>
         )}

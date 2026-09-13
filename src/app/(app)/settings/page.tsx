@@ -18,7 +18,10 @@ export default async function SettingsPage() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
       <div>
-        <Link href="/dashboard" className="text-sm text-slate-500 hover:underline">
+        <Link
+          href="/dashboard"
+          className="-my-3 inline-block py-3 text-sm text-slate-500 hover:underline dark:text-slate-400"
+        >
           ← All classes
         </Link>
         <h1 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">Settings</h1>
@@ -39,7 +42,10 @@ export default async function SettingsPage() {
       <Card title="Security">
         <p>
           Email verification, your attendance phone and face data.{" "}
-          <Link href="/security" className="font-medium text-blue-600 hover:underline">
+          <Link
+            href="/security"
+            className="font-medium text-blue-600 hover:underline dark:text-blue-400"
+          >
             Account security
           </Link>
         </p>
@@ -59,7 +65,7 @@ export default async function SettingsPage() {
 
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+    <section className="rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
       <h2 className="mb-3 font-semibold text-slate-900 dark:text-white">{title}</h2>
       {children}
     </section>

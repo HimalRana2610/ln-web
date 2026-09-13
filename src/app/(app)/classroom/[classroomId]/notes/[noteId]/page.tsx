@@ -6,6 +6,7 @@ import { PrintButton } from "@/components/note/print-button";
 import { fetchOr404 } from "@/lib/api/fetch-or-404";
 import { authedFetch } from "@/lib/api/server";
 import type { Note } from "@/lib/api/types";
+import { formatCalendarDate } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -36,18 +37,18 @@ export default async function NotePage({
         <div>
           <Link
             href={`/classroom/${classroomId}`}
-            className="text-sm text-slate-500 hover:underline dark:text-slate-400"
+            className="-my-3 inline-block py-3 text-sm text-slate-500 hover:underline dark:text-slate-400"
           >
             ← Back to class
           </Link>
           <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-            {new Date(note.date).toLocaleDateString()} · {note.author_name}
+            {formatCalendarDate(note.date)} · {note.author_name}
           </p>
         </div>
         {note.status === "ready" && <PrintButton />}
       </div>
 
-      <div className="print-surface rounded-2xl border border-slate-200 bg-white p-6 sm:p-10 dark:border-slate-800 dark:bg-slate-900">
+      <div className="print-surface rounded-2xl border border-slate-200 bg-white p-6 sm:p-10 dark:border-slate-700 dark:bg-slate-800">
         {note.status === "ready" ? (
           <MarkdownView markdown={note.markdown} />
         ) : (

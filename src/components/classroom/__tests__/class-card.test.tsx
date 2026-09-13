@@ -80,4 +80,17 @@ describe("ClassCard", () => {
 
     expect(onRecoverableError).not.toHaveBeenCalled();
   });
+
+  it("clamps a long name inside the header and keeps the full name as a tooltip", () => {
+    // Found in the Phase 7 screenshots: a four-line name spilled out of the
+    // fixed-height header and over "Open class" and the role.
+    const name =
+      "Operating Systems — Process Scheduling, Memory Management and File Systems (Advanced Elective)";
+    const container = document.createElement("div");
+    container.innerHTML = renderToString(<ClassCard classroom={{ ...classroom, name }} />);
+
+    const heading = container.querySelector("h2");
+    expect(heading).toHaveAttribute("title", name);
+    expect(heading?.className).toContain("line-clamp-2");
+  });
 });

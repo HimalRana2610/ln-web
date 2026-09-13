@@ -84,7 +84,7 @@ export function AttendancePanel({
           // filename, and the browser handles the download natively.
           <a
             href={`/api/attendance/${classroomId}/export`}
-            className="inline-flex h-9 items-center rounded-lg bg-slate-100 px-3 text-sm font-medium text-slate-900 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+            className="inline-flex h-9 items-center rounded-lg bg-slate-100 px-3 text-sm font-medium text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-700"
           >
             Download spreadsheet
           </a>
@@ -104,7 +104,9 @@ export function AttendancePanel({
           </p>
         </div>
       ) : (
-        <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[18rem_minmax(0,1fr)]">
+          {/* minmax(0, 1fr), not an auto track: otherwise the register table widens
+              the page instead of scrolling inside its own container on a phone. */}
           <div className="flex flex-col gap-4">
             <SessionCalendar
               sessions={sessions}
@@ -173,13 +175,13 @@ function SessionCalendar({
   });
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800">
       <div className="mb-2 flex items-center justify-between">
         <button
           type="button"
           aria-label="Previous month"
           onClick={() => setMonth(shiftMonth(year, month, -1))}
-          className="rounded-md px-2 py-1 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+          className="flex size-11 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
         >
           ‹
         </button>
@@ -188,7 +190,7 @@ function SessionCalendar({
           type="button"
           aria-label="Next month"
           onClick={() => setMonth(shiftMonth(year, month, 1))}
-          className="rounded-md px-2 py-1 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+          className="flex size-11 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
         >
           ›
         </button>
@@ -196,7 +198,7 @@ function SessionCalendar({
 
       <div className="grid grid-cols-7 gap-0.5 text-center text-[11px]">
         {WEEKDAYS.map((d) => (
-          <span key={d} className="py-1 text-slate-400">
+          <span key={d} className="py-1 text-slate-500 dark:text-slate-400">
             {d}
           </span>
         ))}
@@ -237,7 +239,7 @@ function SessionCalendar({
         <button
           type="button"
           onClick={() => onSelectDay(null)}
-          className="mt-2 w-full text-xs text-slate-500 hover:underline"
+          className="mt-2 w-full text-xs text-slate-500 hover:underline dark:text-slate-400"
         >
           Show all sessions
         </button>
@@ -258,7 +260,7 @@ function StatusBadge({ status }: { status: SessionStatus }) {
         status === "monitoring" &&
           "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
         status === "ended" &&
-          "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
+          "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300",
       )}
     >
       {SESSION_STATUS_LABEL[status]}
@@ -275,7 +277,7 @@ function RecordBadge({ status }: { status: RecordStatus }) {
           "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300",
         status === "absent" && "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
         status === "pending" &&
-          "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
+          "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300",
       )}
     >
       {RECORD_STATUS_LABEL[status]}
@@ -300,10 +302,10 @@ function SessionRow({
       onClick={onSelect}
       aria-current={selected ? "true" : undefined}
       className={cn(
-        "w-full rounded-xl border bg-white p-3 text-left transition dark:bg-slate-900",
+        "w-full rounded-xl border bg-white p-3 text-left transition dark:bg-slate-800",
         selected
           ? "border-blue-500 ring-1 ring-blue-500"
-          : "border-slate-200 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-700",
+          : "border-slate-200 hover:border-slate-300 dark:border-slate-700 dark:hover:border-slate-700",
       )}
     >
       <div className="flex items-center justify-between gap-2">
@@ -384,7 +386,7 @@ function SessionDetail({
   return (
     <section
       aria-label="Session detail"
-      className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900"
+      className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -427,7 +429,9 @@ function SessionDetail({
       )}
 
       <div className="mt-5">
-        {records === null && !error && <p className="text-sm text-slate-500">Loading…</p>}
+        {records === null && !error && (
+          <p className="text-sm text-slate-500 dark:text-slate-400">Loading…</p>
+        )}
         {records?.length === 0 && (
           <p className="text-sm text-slate-500 dark:text-slate-400">
             No students in this session.
@@ -444,7 +448,7 @@ function SessionDetail({
                   {canManage && <th className="py-2 font-medium">Correct</th>}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                 {records.map((record) => (
                   <RecordRow
                     key={record.id}
@@ -466,7 +470,7 @@ function SessionDetail({
       </div>
 
       {canManage && (
-        <div className="mt-6 border-t border-slate-200 pt-4 dark:border-slate-800">
+        <div className="mt-6 border-t border-slate-200 pt-4 dark:border-slate-700">
           <button
             type="button"
             onClick={() => setShowAttempts((v) => !v)}
@@ -484,7 +488,7 @@ function SessionDetail({
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg bg-slate-50 px-3 py-2 dark:bg-slate-800/60">
+    <div className="rounded-lg bg-slate-50 px-3 py-2 dark:bg-slate-700/60">
       <dt className="text-[11px] text-slate-500 uppercase dark:text-slate-400">{label}</dt>
       <dd className="font-semibold text-slate-900 tabular-nums dark:text-white">{value}</dd>
     </div>
@@ -516,7 +520,7 @@ function RecordRow({
     <tr className={cn("align-middle", isPending && "opacity-60")}>
       <td className="py-3 pr-4">
         <p className="font-medium text-slate-900 dark:text-white">{record.student_name}</p>
-        <p className="text-xs text-slate-500">{record.student_email}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">{record.student_email}</p>
       </td>
       <td className="py-3 pr-4">
         <div className="flex items-center gap-1.5">
@@ -531,7 +535,7 @@ function RecordRow({
           )}
         </div>
       </td>
-      <td className="py-3 pr-4 text-xs whitespace-nowrap text-slate-500">
+      <td className="py-3 pr-4 text-xs whitespace-nowrap text-slate-500 dark:text-slate-400">
         {record.marked_at ? <LocalTime iso={record.marked_at} withTime /> : "—"}
       </td>
       {canManage && (
@@ -577,18 +581,19 @@ function AttemptList({ sessionId }: { sessionId: string }) {
   }, [sessionId]);
 
   if (error) return <Alert>{error}</Alert>;
-  if (attempts === null) return <p className="mt-3 text-sm text-slate-500">Loading…</p>;
+  if (attempts === null)
+    return <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Loading…</p>;
   if (attempts.length === 0) {
-    return <p className="mt-3 text-sm text-slate-500">No attempts yet.</p>;
+    return <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">No attempts yet.</p>;
   }
 
   return (
-    <ul className="mt-3 flex flex-col divide-y divide-slate-200 text-sm dark:divide-slate-800">
+    <ul className="mt-3 flex flex-col divide-y divide-slate-200 text-sm dark:divide-slate-700">
       {attempts.map((a) => (
         <li key={a.id} className="flex flex-wrap items-center justify-between gap-2 py-2">
           <div>
             <p className="font-medium text-slate-900 dark:text-white">{a.student_name}</p>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               <LocalTime iso={a.created_at} withTime /> · in range {a.valid_windows}/
               {a.elapsed_windows} windows
               {a.avg_rssi !== null && ` · ${a.avg_rssi} dBm`}

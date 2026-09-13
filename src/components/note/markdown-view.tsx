@@ -99,7 +99,7 @@ export function MarkdownView({ markdown, className }: MarkdownViewProps) {
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="font-handwriting mt-7 mb-3 border-b border-slate-200 pb-1 text-2xl font-bold text-slate-900 dark:border-slate-800 dark:text-white">
+            <h2 className="font-handwriting mt-7 mb-3 border-b border-slate-200 pb-1 text-2xl font-bold text-slate-900 dark:border-slate-700 dark:text-white">
               {children}
             </h2>
           ),
@@ -136,7 +136,7 @@ export function MarkdownView({ markdown, className }: MarkdownViewProps) {
             </div>
           ),
           th: ({ children }) => (
-            <th className="border border-slate-300 bg-slate-100 px-3 py-2 text-left font-semibold dark:border-slate-700 dark:bg-slate-800">
+            <th className="border border-slate-300 bg-slate-100 px-3 py-2 text-left font-semibold dark:border-slate-700 dark:bg-slate-700">
               {children}
             </th>
           ),
@@ -152,7 +152,7 @@ export function MarkdownView({ markdown, className }: MarkdownViewProps) {
             // highlighted.
             if (language === "mermaid") {
               return (
-                <pre className="mermaid my-4 flex justify-center overflow-x-auto rounded-lg bg-slate-50 p-4 dark:bg-slate-900">
+                <pre className="mermaid my-4 flex justify-center overflow-x-auto rounded-lg bg-slate-50 p-4 dark:bg-slate-800">
                   {String(children)}
                 </pre>
               );
@@ -160,7 +160,7 @@ export function MarkdownView({ markdown, className }: MarkdownViewProps) {
 
             if (!language) {
               return (
-                <code className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-slate-800">
+                <code className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-slate-700">
                   {children}
                 </code>
               );

@@ -33,7 +33,7 @@ export function DeleteAccountButton() {
       <Button
         variant="secondary"
         size="sm"
-        className="self-start text-red-700 dark:text-red-400"
+        className="self-start text-red-700 dark:text-red-300"
         onClick={() => setOpen(true)}
       >
         Delete account

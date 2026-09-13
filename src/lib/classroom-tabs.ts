@@ -11,6 +11,7 @@ export const CLASSROOM_TABS = [
   { value: "notes", label: "Notes" },
   { value: "attendance", label: "Attendance" },
   { value: "quiz", label: "Quiz" },
+  { value: "members", label: "Members" },
   { value: "security", label: "Security", teacherOnly: true },
 ] as const;
 

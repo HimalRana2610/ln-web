@@ -36,7 +36,7 @@ export function Attachment({ asset, className }: { asset: AssetInfo; className?:
   return (
     <div
       className={cn(
-        "flex items-center gap-3 rounded-lg border border-slate-200 p-2 dark:border-slate-800",
+        "flex items-center gap-3 rounded-lg border border-slate-200 p-2 dark:border-slate-700",
         className,
       )}
     >

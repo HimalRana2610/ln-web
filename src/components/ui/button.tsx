@@ -18,10 +18,10 @@ const variants: Record<Variant, string> = {
     "dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200",
   secondary:
     "bg-slate-100 text-slate-900 hover:bg-slate-200 focus-visible:outline-slate-400 " +
-    "dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700",
+    "dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-700",
   ghost:
     "bg-transparent text-slate-600 hover:bg-slate-100 focus-visible:outline-slate-400 " +
-    "dark:text-slate-300 dark:hover:bg-slate-800",
+    "dark:text-slate-300 dark:hover:bg-slate-700",
 };
 
 const sizes: Record<Size, string> = {

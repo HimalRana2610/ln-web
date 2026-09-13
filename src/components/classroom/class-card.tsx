@@ -56,32 +56,31 @@ export function ClassCard({ classroom }: ClassCardProps) {
     <article
       className={cn(
         "overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 transition",
-        "hover:shadow-md dark:bg-slate-900 dark:ring-slate-800",
+        "hover:shadow-md dark:bg-slate-800 dark:ring-slate-700",
         isPending && "pointer-events-none opacity-60",
       )}
     >
       {/* Gradient header */}
-      <div
-        className={cn(
-          "relative h-36 bg-gradient-to-br px-5 pt-5",
-          classroom.theme_color,
-        )}
-      >
-        <h3 className="pr-10 text-2xl leading-tight font-bold text-white">
+      <div className={cn("relative h-36 bg-gradient-to-br px-5 pt-5", classroom.theme_color)}>
+        {/* The header is a fixed height: a long name must clamp, not spill into the body. */}
+        <h2
+          title={classroom.name}
+          className="line-clamp-2 pr-10 text-2xl leading-tight font-bold break-words text-white"
+        >
           {classroom.name}
-        </h3>
+        </h2>
         {classroom.section && (
-          <p className="mt-1 text-sm text-white/80">{classroom.section}</p>
+          <p className="mt-1 truncate pr-20 text-sm text-white/90">{classroom.section}</p>
         )}
 
         {/* Overflow menu */}
-        <div className="absolute top-4 right-3">
+        <div className="absolute top-2 right-1">
           <button
             type="button"
             aria-label="Class options"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
-            className="rounded-full px-2 py-1 text-white/90 transition hover:bg-white/20"
+            className="flex size-11 items-center justify-center rounded-full text-white/90 transition hover:bg-white/20"
           >
             <span aria-hidden className="text-xl leading-none">
               ⋮
@@ -100,7 +99,7 @@ export function ClassCard({ classroom }: ClassCardProps) {
               />
               <div
                 role="menu"
-                className="absolute right-0 z-20 mt-1 w-40 overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700"
+                className="absolute right-0 z-20 mt-1 w-40 overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-slate-200 dark:bg-slate-700 dark:ring-slate-700"
               >
                 <button
                   type="button"
@@ -116,7 +115,7 @@ export function ClassCard({ classroom }: ClassCardProps) {
         </div>
 
         {/* Avatar tile, overlapping the header edge */}
-        <div className="absolute -bottom-6 right-5 rounded-2xl bg-white p-1.5 shadow-sm dark:bg-slate-900">
+        <div className="absolute right-5 -bottom-6 rounded-2xl bg-white p-1.5 shadow-sm dark:bg-slate-800">
           <div
             className={cn(
               "flex size-14 items-center justify-center rounded-xl bg-gradient-to-br",
@@ -132,7 +131,7 @@ export function ClassCard({ classroom }: ClassCardProps) {
       <div className="px-5 pt-6 pb-5">
         <Link
           href={`/classroom/${classroom.id}`}
-          className="mb-4 inline-block text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+          className="-mt-3 mb-1 inline-block py-3 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
         >
           Open class →
         </Link>
@@ -146,18 +145,18 @@ export function ClassCard({ classroom }: ClassCardProps) {
           </dd>
         </dl>
 
-        <hr className="my-4 border-slate-200 dark:border-slate-800" />
+        <hr className="my-4 border-slate-200 dark:border-slate-700" />
 
         <div className="flex items-center justify-between gap-3">
           <span className="text-sm text-slate-500 dark:text-slate-400">Class Code</span>
-          <code className="rounded-md bg-slate-100 px-3 py-1 font-mono text-sm tracking-wider text-slate-800 dark:bg-slate-800 dark:text-slate-100">
+          <code className="rounded-md bg-slate-100 px-3 py-1 font-mono text-sm tracking-wider text-slate-800 dark:bg-slate-700 dark:text-slate-100">
             {classroom.code}
           </code>
         </div>
 
-        <p className="mt-3 text-xs text-slate-400 dark:text-slate-500">
-          {classroom.member_count}{" "}
-          {classroom.member_count === 1 ? "member" : "members"} · {classroom.owner_name}
+        <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+          {classroom.member_count} {classroom.member_count === 1 ? "member" : "members"} ·{" "}
+          {classroom.owner_name}
         </p>
       </div>
     </article>

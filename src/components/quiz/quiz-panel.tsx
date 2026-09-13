@@ -55,7 +55,7 @@ export function QuizPanel({ classroomId, initialState, canManage }: QuizPanelPro
         <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Quiz</h2>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div className="flex flex-col gap-4">
           {canManage && !state.active && (
             <QuestionComposer classroomId={classroomId} onStarted={refresh} />
@@ -99,7 +99,7 @@ function QuestionComposer({
 
   return (
     <form
-      className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900"
+      className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800"
       onSubmit={(event) => {
         event.preventDefault();
         setError(null);
@@ -135,13 +135,14 @@ function QuestionComposer({
               }
             />
           </div>
-          <label className="mb-3 flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-300">
+          <label className="mb-3 flex min-h-11 flex-wrap items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
             <input
               type="radio"
               name="correct_option"
               checked={correct === letter}
               onChange={() => setCorrect(letter)}
               aria-label={`${letter} is correct`}
+              className="size-5 accent-blue-600"
             />
             Correct
           </label>
@@ -159,7 +160,7 @@ function QuestionCard({ question, children }: { question: QuizQuestion; children
   return (
     <section
       aria-label={live ? "Live question" : "Last question"}
-      className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900"
+      className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800"
     >
       <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">
         {live ? "Live" : "Ended"} · {question.answer_count}{" "}
@@ -257,8 +258,8 @@ function StudentQuestion({
               ended && question.correct_option === letter
                 ? "border-green-500 bg-green-50 text-green-900 dark:bg-green-950/50 dark:text-green-100"
                 : mine === letter
-                  ? "border-slate-900 bg-slate-100 dark:border-white dark:bg-slate-800"
-                  : "border-slate-200 hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:hover:bg-slate-800",
+                  ? "border-slate-900 bg-slate-100 dark:border-white dark:bg-slate-700"
+                  : "border-slate-200 hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:hover:bg-slate-700",
             )}
           >
             <span className="font-bold">{letter}.</span> {question.options[index]}
@@ -294,7 +295,7 @@ function StudentQuestion({
 /** Rendered in the order the server ranked it; never re-sorted here. */
 function Leaderboard({ entries }: { entries: LeaderboardEntry[] }) {
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+    <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800">
       <h3 className="mb-3 font-semibold text-slate-900 dark:text-white">Leaderboard</h3>
       {entries.length === 0 ? (
         <p className="text-sm text-slate-500 dark:text-slate-400">No answers yet.</p>
@@ -313,7 +314,7 @@ function Leaderboard({ entries }: { entries: LeaderboardEntry[] }) {
               {entries.map((entry) => (
                 <tr
                   key={entry.student_id}
-                  className="border-t border-slate-100 dark:border-slate-800"
+                  className="border-t border-slate-100 dark:border-slate-700"
                 >
                   <td className="py-2 pr-3 font-semibold">{entry.rank}</td>
                   <td className="py-2 pr-3">{entry.student_name}</td>

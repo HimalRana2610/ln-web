@@ -68,7 +68,7 @@ export function ThemePicker() {
             "h-9 rounded-lg px-3 text-sm font-medium transition-colors",
             preference === value
               ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900"
-              : "bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700",
+              : "bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-700",
           )}
         >
           {label}

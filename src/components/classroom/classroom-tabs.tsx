@@ -26,7 +26,7 @@ export function ClassroomTabs({
     <div>
       <nav
         aria-label="Classroom sections"
-        className="mb-6 flex gap-1 overflow-x-auto border-b border-slate-200 dark:border-slate-800"
+        className="mb-6 flex gap-1 overflow-x-auto border-b border-slate-200 dark:border-slate-700"
       >
         {visibleTabs(canManage).map(({ value, label }) => (
           <Link

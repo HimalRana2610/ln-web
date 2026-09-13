@@ -8,7 +8,9 @@ export const metadata: Metadata = { title: "Sign in" };
 export default function LoginPage() {
   return (
     <>
-      <h2 className="mb-1 text-lg font-semibold text-slate-900 dark:text-white">Welcome back</h2>
+      <h2 className="mb-1 text-lg font-semibold text-slate-900 dark:text-white">
+        Welcome back
+      </h2>
       <p className="mb-6 text-sm text-slate-500 dark:text-slate-400">
         Sign in to continue to your classes.
       </p>

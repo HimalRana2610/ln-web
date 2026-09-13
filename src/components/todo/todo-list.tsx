@@ -20,7 +20,7 @@ export function TodoList({ items, active }: { items: ToDoItem[]; active: ToDoSta
     <div>
       <nav
         aria-label="To-do sections"
-        className="mb-6 flex gap-1 overflow-x-auto border-b border-slate-200 dark:border-slate-800"
+        className="mb-6 flex gap-1 overflow-x-auto border-b border-slate-200 dark:border-slate-700"
       >
         {TODO_TABS.map(({ value, label }) => (
           <Link
@@ -35,7 +35,8 @@ export function TodoList({ items, active }: { items: ToDoItem[]; active: ToDoSta
                 : "border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200",
             )}
           >
-            {label} <span className="text-slate-400">{groups[value].length}</span>
+            {label}{" "}
+            <span className="text-slate-500 dark:text-slate-400">{groups[value].length}</span>
           </Link>
         ))}
       </nav>
@@ -50,7 +51,7 @@ export function TodoList({ items, active }: { items: ToDoItem[]; active: ToDoSta
             <li key={item.post_id}>
               <Link
                 href={`/classroom/${item.classroom_id}?tab=assignments`}
-                className="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 transition hover:shadow-sm dark:border-slate-800 dark:bg-slate-900"
+                className="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 transition hover:shadow-sm dark:border-slate-700 dark:bg-slate-800"
               >
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">

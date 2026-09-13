@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Kalam } from "next/font/google";
 
 import { ServiceWorkerRegistrar } from "@/components/offline/service-worker-registrar";
@@ -32,6 +32,9 @@ export const metadata: Metadata = {
   },
   description: "AI lecture notes, proximity attendance and coursework in one place.",
 };
+
+/** The old app's status bar and splash colour (slate-800). */
+export const viewport: Viewport = { themeColor: "#1e293b" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

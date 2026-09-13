@@ -129,7 +129,7 @@ export function PostComposer({
             rows={kind === "announcement" ? 5 : 3}
             value={description}
             onChange={(event) => setDescription(event.target.value)}
-            className="rounded-lg border border-slate-300 p-3 text-sm outline-none focus:border-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-slate-400"
+            className="rounded-lg border border-slate-300 p-3 text-sm outline-none focus:border-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-slate-400"
           />
         </div>
 

@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { apiFetch } from "@/lib/api/client";
-import {
-  clearSessionCookies,
-  getAccessToken,
-  getRefreshToken,
-} from "@/lib/auth/session";
+import { clearSessionCookies, getAccessToken, getRefreshToken } from "@/lib/auth/session";
 
 /**
  * Ends the session on the server, then clears the cookies.
@@ -14,10 +10,7 @@ import {
  * the user is never stuck in a half-signed-in state on this device.
  */
 export async function POST(): Promise<NextResponse> {
-  const [accessToken, refreshToken] = await Promise.all([
-    getAccessToken(),
-    getRefreshToken(),
-  ]);
+  const [accessToken, refreshToken] = await Promise.all([getAccessToken(), getRefreshToken()]);
 
   if (accessToken) {
     try {

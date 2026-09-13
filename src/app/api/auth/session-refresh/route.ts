@@ -3,11 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { ApiError, apiFetch } from "@/lib/api/client";
 import type { TokenPair } from "@/lib/api/types";
 import { REFRESH_ATTEMPT_COOKIE } from "@/lib/auth/cookie-names";
-import {
-  clearSessionCookies,
-  getRefreshToken,
-  setSessionCookies,
-} from "@/lib/auth/session";
+import { clearSessionCookies, getRefreshToken, setSessionCookies } from "@/lib/auth/session";
 
 /**
  * Renews the session, then sends the visitor where they were going.

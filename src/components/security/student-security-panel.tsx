@@ -92,7 +92,7 @@ export function StudentSecurityPanel({
         {students.length === 0 ? (
           <p className="text-sm text-slate-500 dark:text-slate-400">No students yet.</p>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+          <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
             <table className="w-full text-left text-sm">
               <thead className="text-xs text-slate-500 uppercase dark:text-slate-400">
                 <tr>
@@ -103,7 +103,7 @@ export function StudentSecurityPanel({
                   <th className="px-4 py-2 font-medium">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                 {students.map((student) => (
                   <StudentRow
                     key={student.student_id}
@@ -129,7 +129,7 @@ function Badge({ ok, children }: { ok: boolean; children: React.ReactNode }) {
         "rounded-full px-2 py-0.5 text-[11px] font-medium whitespace-nowrap",
         ok
           ? "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300"
-          : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
+          : "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300",
       )}
     >
       {children}
@@ -145,7 +145,7 @@ function AlertRow({ alert, onRead }: { alert: SecurityAlert; onRead: () => Promi
       className={cn(
         "flex flex-wrap items-start justify-between gap-3 rounded-xl border p-3",
         alert.read_at
-          ? "border-slate-200 bg-white opacity-70 dark:border-slate-800 dark:bg-slate-900"
+          ? "border-slate-200 bg-white opacity-70 dark:border-slate-700 dark:bg-slate-800"
           : critical
             ? "border-red-300 bg-red-50 dark:border-red-900 dark:bg-red-950/40"
             : "border-amber-300 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/40",
@@ -156,7 +156,7 @@ function AlertRow({ alert, onRead }: { alert: SecurityAlert; onRead: () => Promi
           {alert.student_name} · {alertLabel(alert.type)}
         </p>
         <p className="mt-0.5 text-sm text-slate-700 dark:text-slate-300">{alert.message}</p>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
           <LocalTime iso={alert.created_at} withTime /> · {critical ? "Critical" : "Review"}
         </p>
       </div>
@@ -234,7 +234,7 @@ function StudentRow({
             </span>
           )}
         </p>
-        <p className="text-xs text-slate-500">{student.email}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">{student.email}</p>
         {student.blocked && (
           <p className="mt-1 text-xs font-medium text-red-600 dark:text-red-400">
             Blocked{student.block_reason ? `: ${student.block_reason}` : ""}
@@ -250,7 +250,7 @@ function StudentRow({
         {student.device ? (
           <div>
             <Badge ok>{student.device.model ?? student.device.platform}</Badge>
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
               Seen <LocalTime iso={student.device.last_seen_at} withTime />
             </p>
           </div>

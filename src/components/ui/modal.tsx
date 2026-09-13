@@ -44,7 +44,7 @@ export function Modal({ open, onClose, title, children, size = "default" }: Moda
         if (event.target === dialogRef.current) onClose();
       }}
       aria-label={title}
-      className={`m-auto ${size === "wide" ? "w-[min(44rem,calc(100vw-2rem))]" : "w-[min(28rem,calc(100vw-2rem))]"} rounded-2xl bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-900/50 dark:bg-slate-900 dark:text-slate-100`}
+      className={`m-auto ${size === "wide" ? "w-[min(44rem,calc(100vw-2rem))]" : "w-[min(28rem,calc(100vw-2rem))]"} rounded-2xl bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-900/50 dark:bg-slate-800 dark:text-slate-100`}
     >
       <div className="p-6">
         <h2 className="mb-1 text-lg font-semibold">{title}</h2>

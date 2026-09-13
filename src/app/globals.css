@@ -29,8 +29,8 @@
 }
 
 :root[data-theme="dark"] {
-  /* slate-950 / slate-100 */
-  --background: #020617;
+  /* slate-900 / slate-100 — the old app's dark surface, not slate-950. */
+  --background: #0f172a;
   --foreground: #f1f5f9;
   color-scheme: dark;
 }

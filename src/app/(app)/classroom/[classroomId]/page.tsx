@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { AttendancePanel } from "@/components/attendance/attendance-panel";
 import { ClassroomTabs } from "@/components/classroom/classroom-tabs";
+import { MembersList } from "@/components/classroom/members-list";
 import { NoteList } from "@/components/note/note-list";
 import { AssignmentList } from "@/components/post/assignment-list";
 import { PostFeed } from "@/components/post/post-feed";
@@ -13,6 +14,7 @@ import { authedFetch } from "@/lib/api/server";
 import type {
   AttendanceSession,
   Classroom,
+  ClassroomMember,
   MySecurityStatus,
   NoteSummary,
   Post,
@@ -67,14 +69,20 @@ export default async function ClassroomPage({
           ? authedFetch<AttendanceSession[]>(`/classrooms/${classroomId}/attendance/sessions`)
           : tab === "quiz"
             ? authedFetch<QuizState>(`/classrooms/${classroomId}/quiz`)
-            : tab === "security"
-              ? Promise.all([
-                  authedFetch<StudentSecurity[]>(
-                    `/classrooms/${classroomId}/students/security`,
+            : tab === "members"
+              ? authedFetch<ClassroomMember[]>(`/classrooms/${classroomId}/members`)
+              : tab === "security"
+                ? Promise.all([
+                    authedFetch<StudentSecurity[]>(
+                      `/classrooms/${classroomId}/students/security`,
+                    ),
+                    authedFetch<SecurityAlert[]>(
+                      `/security/alerts?classroom_id=${classroomId}`,
+                    ),
+                  ])
+                : authedFetch<Post[]>(
+                    `/classrooms/${classroomId}/posts?kind=${POST_KIND[tab]}`,
                   ),
-                  authedFetch<SecurityAlert[]>(`/security/alerts?classroom_id=${classroomId}`),
-                ])
-              : authedFetch<Post[]>(`/classrooms/${classroomId}/posts?kind=${POST_KIND[tab]}`),
       canManage ? null : authedFetch<MySecurityStatus>("/users/me/security"),
     ]),
   );
@@ -83,21 +91,40 @@ export default async function ClassroomPage({
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
+      {/* The old classroom header: dark slate, back arrow, title, section and a code chip. */}
+      <div className="flex items-start gap-3 rounded-2xl bg-slate-900 px-4 py-4 text-white shadow-lg sm:px-6 dark:ring-1 dark:ring-slate-700">
         <Link
           href="/dashboard"
-          className="text-sm text-slate-500 hover:underline dark:text-slate-400"
+          aria-label="All classes"
+          className="-ml-1 flex size-11 shrink-0 items-center justify-center rounded-full text-slate-300 transition hover:bg-white/10 hover:text-white"
         >
-          ← All classes
+          <svg
+            aria-hidden
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            className="size-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+            />
+          </svg>
         </Link>
 
-        <h1 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-          {classroom.name}
-        </h1>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          {classroom.section ? `${classroom.section} · ` : ""}
-          {classroom.member_count} {classroom.member_count === 1 ? "member" : "members"} · Code{" "}
-          <code className="font-mono">{classroom.code}</code>
+        <div className="min-w-0 flex-1 pt-1">
+          <h1 className="text-xl font-bold break-words sm:text-2xl">{classroom.name}</h1>
+          <p className="mt-1 text-sm text-slate-400">
+            {classroom.section ? `${classroom.section} · ` : ""}
+            {classroom.member_count} {classroom.member_count === 1 ? "member" : "members"}
+          </p>
+        </div>
+
+        <p className="mt-2 shrink-0 rounded-lg border border-blue-500/30 bg-blue-500/10 px-2.5 py-1 font-mono text-xs font-semibold tracking-wider text-blue-300">
+          <span className="sr-only">Class code </span>
+          {classroom.code}
         </p>
       </div>
 
@@ -163,6 +190,13 @@ export default async function ClassroomPage({
             <QuizPanel
               classroomId={classroomId}
               initialState={sectionData as QuizState}
+              canManage={canManage}
+            />
+          )}
+          {tab === "members" && (
+            <MembersList
+              classroomId={classroomId}
+              initialMembers={sectionData as ClassroomMember[]}
               canManage={canManage}
             />
           )}

@@ -17,7 +17,7 @@ export function Alert({ tone = "error", children, className }: AlertProps) {
         "rounded-lg border px-3 py-2 text-sm",
         tone === "error"
           ? "border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
-          : "border-slate-200 bg-slate-50 text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200",
+          : "border-slate-200 bg-slate-50 text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200",
         className,
       )}
     >

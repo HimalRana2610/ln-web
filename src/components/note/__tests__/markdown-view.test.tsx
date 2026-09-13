@@ -45,16 +45,12 @@ describe("MarkdownView mermaid handling", () => {
     parse.mockResolvedValue(false);
 
     const { container } = render(
-      <MarkdownView
-        markdown={diagram("flowchart TD\nA[CO2] + B[RuBP] --> C[Fixed]")}
-      />,
+      <MarkdownView markdown={diagram("flowchart TD\nA[CO2] + B[RuBP] --> C[Fixed]")} />,
     );
 
     // The block must stop being a Mermaid target, so `run` never sees it and
     // the reader gets the source text instead of a red error graphic.
-    await waitFor(() =>
-      expect(container.querySelector("pre.mermaid")).toBeNull(),
-    );
+    await waitFor(() => expect(container.querySelector("pre.mermaid")).toBeNull());
     expect(run).not.toHaveBeenCalled();
     expect(screen.getByText(/RuBP/)).toBeInTheDocument();
   });
@@ -80,13 +76,9 @@ describe("MarkdownView mermaid handling", () => {
   it("survives parse itself throwing", async () => {
     parse.mockRejectedValue(new Error("boom"));
 
-    const { container } = render(
-      <MarkdownView markdown={diagram("flowchart TD\nA --> B")} />,
-    );
+    const { container } = render(<MarkdownView markdown={diagram("flowchart TD\nA --> B")} />);
 
-    await waitFor(() =>
-      expect(container.querySelector("pre.mermaid")).toBeNull(),
-    );
+    await waitFor(() => expect(container.querySelector("pre.mermaid")).toBeNull());
     expect(run).not.toHaveBeenCalled();
   });
 });

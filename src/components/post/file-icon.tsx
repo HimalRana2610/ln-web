@@ -33,11 +33,11 @@ const STYLE: Record<FileCategory, { label: string; className: string }> = {
   },
   text: {
     label: "TXT",
-    className: "bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
+    className: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300",
   },
   other: {
     label: "FILE",
-    className: "bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
+    className: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300",
   },
 };
 

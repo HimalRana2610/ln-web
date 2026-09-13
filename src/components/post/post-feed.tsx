@@ -115,7 +115,7 @@ function PostCard({
   return (
     <li
       className={cn(
-        "rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900",
+        "rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800",
         isPending && "pointer-events-none opacity-60",
       )}
     >

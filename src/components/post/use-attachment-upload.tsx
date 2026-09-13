@@ -57,7 +57,7 @@ export function UploadProgress({ percent }: { percent: number | null }) {
       <div className="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
         <div className="h-full bg-blue-600 transition-all" style={{ width: `${percent}%` }} />
       </div>
-      <p className="mt-1 text-xs text-slate-500">Uploading… {percent}%</p>
+      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Uploading… {percent}%</p>
     </div>
   );
 }
