@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { describe, expect, it } from "vitest";
 
-import { middleware } from "../middleware";
+import { proxy } from "../proxy";
 import { ACCESS_COOKIE, REFRESH_COOKIE } from "@/lib/auth/cookie-names";
 
 /**
@@ -31,7 +31,7 @@ function request(path: string, cookies: Cookies = {}): NextRequest {
 
 /** The Location header, or null when the request was allowed through. */
 function redirectTarget(path: string, cookies: Cookies = {}): string | null {
-  const response = middleware(request(path, cookies));
+  const response = proxy(request(path, cookies));
   const location = response.headers.get("location");
   return location ? new URL(location).pathname + new URL(location).search : null;
 }
@@ -124,7 +124,7 @@ describe("no state can loop", () => {
 
 describe("path header", () => {
   it("exposes the current path so the layout can return the visitor to it", () => {
-    const response = middleware(request("/dashboard", { access: true, refresh: true }));
+    const response = proxy(request("/dashboard", { access: true, refresh: true }));
     expect(response.headers.get("x-middleware-request-x-pathname")).toBe("/dashboard");
   });
 });
